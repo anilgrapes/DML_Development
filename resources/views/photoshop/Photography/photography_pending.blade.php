@@ -2,7 +2,7 @@
 @extends('layout.photo_navi')
 
 
-@section('title', 'Photoshop')
+@section('title', 'Photography Pending')
 
 @section('distinct_head')
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">

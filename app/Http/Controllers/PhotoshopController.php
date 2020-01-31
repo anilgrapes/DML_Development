@@ -4,17 +4,20 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\photography;
+use App\productListModel;
+use App\Helpers\PhotoshopHelper;
 use DB;
 class PhotoshopController extends Controller
 {
     public function index()
     {
+
         DB::setTablePrefix('');
         $totoalproduct=DB::table('Catalog_product_flat_1 as e')->count();
         $totalphotographydone=DB::table('Catalog_product_flat_1 as e')
                     ->where('dml_only','=',0)
                     ->count();
-                    $totalphotographypending=DB::table('Catalog_product_flat_1 as e')
+        $totalphotographypending=DB::table('Catalog_product_flat_1 as e')
                     ->where('dml_only','=',1)
                     ->count();
         DB::setTablePrefix('dml_');
@@ -26,34 +29,24 @@ class PhotoshopController extends Controller
     */
     public function get_pending_list()
     {
-      DB::setTablePrefix('');
-      $pendinglist=DB::table('Catalog_product_flat_1 as e')
-                    ->join('category as c','e.attribute_set_id','=','c.entity_id')
-                   // ->join('dml_photographies as p','p.product_id','!=','e.entity_id')
-                    ->select('e.entity_id','e.sku','c.name','e.attribute_set_id')
-                    ->where('dml_only','=',1)
-                    ->get();
+       
+       $pendinglist=PhotoshopHelper::getAllProduct();
+       $totalproduct=$pendinglist->count();
+       return view('Photoshop/Photography/photography_pending',compact('pendinglist','totalproduct'));
 
-       $totalproduct=$pendinglist->count();              
-       DB::setTablePrefix('dml_');
-     return view('Photoshop/Photography/photography_pending',compact('pendinglist','totalproduct'));
+   
+   
+  
+      
     }
      /*
     Photography done get data from this function
     */
     public function get_done_list()
     {
-        DB::setTablePrefix('');
-        $donelist=DB::table('dml_photographies as p')
-                ->join('Catalog_product_flat_1 as e','p.product_id','=','e.entity_id')
-                ->join('category as c','e.attribute_set_id','=','c.entity_id')
-                ->join('photosraphy_status as st','p.status','=','st.entity_id')
-                
-                ->select('p.id','e.entity_id','e.sku','p.id','e.attribute_set_id','c.name','st.name as status_name')
-                ->where('p.next_department_status','=',0)
-                ->where('p.status','=',3)
-                ->get();
-        DB::setTablePrefix('dml_');
+
+        $status='3';
+      $donelist=PhotoshopHelper::getPhotography_status($status);
       return view('Photoshop/Photography/photography_done',compact('donelist'));
     }
      /*
@@ -61,16 +54,10 @@ class PhotoshopController extends Controller
     */
     public function get_rework_list()
     {
-        DB::setTablePrefix('');
-        $reworklist=DB::table('dml_photographies as p')
-                ->join('Catalog_product_flat_1 as e','p.product_id','=','e.entity_id')
-                ->join('category as c','e.attribute_set_id','=','c.entity_id')
-                ->join('photosraphy_status as st','p.status','=','st.entity_id')
-                ->select('p.id','e.entity_id','e.sku','p.id','e.attribute_set_id','c.name','st.name as status_name')
-                ->where('p.next_department_status','=',0)
-                ->where('p.status','=',4)
-                ->get();
-        DB::setTablePrefix('dml_');
+     
+        $status='4';
+        $reworklist=PhotoshopHelper::getPhotography_status($status);
+      
         return view('Photoshop/Photography/photography_rework',compact('reworklist'));
     }
 

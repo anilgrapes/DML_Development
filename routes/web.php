@@ -715,7 +715,7 @@ Route::post('account/payments#future_due', ['as' => 'accountpayment.future_due',
 /*
 Photoshop department
 */
-Route::get('Photoshop/photography','PhotoshopController@index')->name('photography.index');
+Route::get('Photoshop/Photography','PhotoshopController@index')->name('photography.index');
 Route::post('Photoshop/Photography/pending','PhotoshopController@pending_list_submit');
 Route::get('Photoshop/Photography/pending','PhotoshopController@get_pending_list')->name('photography.pending');
 
@@ -730,6 +730,15 @@ Route::post('Photoshop/Photography/rework','PhotoshopController@submit_done_list
 psd department Routing
 */
 Route::get('Photoshop/psd','PsdController@index')->name('psd.index');
+Route::post('Photoshop/psd/pending','PsdController@get_data_from_psd_pending_list')->name('psd.pending');
 Route::get('Photoshop/psd/pending','PsdController@get_psd_pending_list')->name('psd.pending');
 Route::get('Photoshop/psd/done','PsdController@get_psd_done_list')->name('psd.done');
+Route::post('Photoshop/psd/done','PsdController@submit_done_list')->name('psd.done');
 Route::get('Photoshop/psd/rework','PsdController@get_psd_rework_list')->name('psd.rework');
+Route::post('Photoshop/psd/rework','PsdController@submit_done_list')->name('psd.rework');
+
+
+
+/*
+Editing Department Routing
+*/

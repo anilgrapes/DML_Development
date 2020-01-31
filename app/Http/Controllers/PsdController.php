@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Helpers\PhotoshopHelper;
+use App\photography;
+use App\psd;
 use DB;
 class PsdController extends Controller
 {
@@ -19,17 +22,7 @@ class PsdController extends Controller
     */
     public function get_psd_pending_list()
     {
-        DB::setTablePrefix('');
-        $psdpending=DB::table('dml_photographies as p')
-                ->join('Catalog_product_flat_1 as e','p.product_id','=','e.entity_id')
-                ->join('category as c','e.attribute_set_id','=','c.entity_id')
-                ->join('photosraphy_status as st','p.status','=','st.entity_id')
-                
-                ->select('p.id','e.entity_id','e.sku','p.id','e.attribute_set_id','c.name','st.name as status_name')
-                ->where('p.next_department_status','=',0)
-                ->where('p.status','=',3)
-                ->get();
-        DB::setTablePrefix('dml_');
+      $psdpending=PhotoshopHelper::get_psd_pending_list();
         return view('Photoshop/PSD/psd_pending',compact('psdpending'));
     }
     /*
@@ -38,7 +31,9 @@ class PsdController extends Controller
     */
     public function get_psd_done_list()
     {
-        return view('Photoshop/PSD/psd_done');
+        $status='3';
+        $psd_done_list=PhotoshopHelper::get_psd_status_list($status);
+        return view('Photoshop/PSD/psd_done',compact('psd_done_list'));
     }
       /*
     Get rework List 
@@ -46,6 +41,50 @@ class PsdController extends Controller
     */
     public function get_psd_rework_list()
     {
-        return view('Photoshop/PSD/psd_rework');
+        $status='4';
+        $psd_rework=PhotoshopHelper::get_psd_status_list($status);
+        return view('Photoshop/PSD/psd_rework',compact('psd_rework'));
     }
+    /* Get All Data from ppending From psd Department
+    Submit Pending Data into post method
+    */
+
+    public function get_data_from_psd_pending_list(Request $request)
+    {
+        if($request->input('status') !='2')
+        {
+            $psd=new psd();
+            $psd->product_id=$request->input('product_id');
+            $psd->category_id=$request->input('category_id');
+            $psd->status=$request->input('status');
+            $psd->current_status='1';
+            $psd->next_department_status='0';
+            $psd->save();
+            $photoshopid=photography::find($request->input('photoshopid'));
+            $photoshopid->next_department_status='1';
+            $photoshopid->save();
+           return redirect()->back()->with('success', 'Psd status Change Successfull');
+
+        }
+        else{
+          return redirect()->back()->with('success', 'Psd status Change Successfull');
+        }
+       
+    }
+
+    public function submit_done_list(Request $request)
+    {
+        $psd=psd::find($request->input('id'));
+       if($request->input('status') !='0')
+       {
+        $psd->status=$request->input('status');
+        $psd->save();
+        return redirect()->back()->with('success', 'Psd status Change Successfull');
+       }
+       else{
+
+        return redirect()->back()->with('success', 'Psd status Change Successfull');
+       }
+    }
+
 }

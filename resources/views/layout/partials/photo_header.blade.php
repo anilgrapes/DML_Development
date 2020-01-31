@@ -40,7 +40,7 @@ DB::setTablePrefix('dml_');
             <!-- Sidebar Menu -->
             <nav class="sidebar-nav">
                 <ul class="nav in side-menu">
-                    <li class="@if (\Request::is('/') || \Request::is('/')) current-page @endif"><a href="<?=URL::to('/photoshop/photography');?>" class="ripple"><span class="color-color-scheme"><i class="list-icon material-icons">network_check</i> <span class="hide-menu">Dashboard </span></span></a>
+                    <li class="@if (\Request::is('/') || \Request::is('/')) current-page @endif"><a href="<?=URL::to('/Photoshop/Photography');?>" class="ripple"><span class="color-color-scheme"><i class="list-icon material-icons">network_check</i> <span class="hide-menu">Dashboard </span></span></a>
                </li>
               
                <li class="@if (\Request::is('users*') || \Request::is('roles*') || \Request::is('permissions*')) current-page @endif menu-item-has-children "><a href="javascript:void(0);" class="ripple"><span class="@if (\Request::is('users*') || \Request::is('roles*') || \Request::is('permissions*')) color-color-scheme @endif"><i class="list-icon material-icons">add_a_photo</i> <span class="hide-menu">Photography</span></span></a>

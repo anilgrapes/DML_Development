@@ -2,7 +2,7 @@
 @extends('layout.photo_navi')
 
 
-@section('title', 'Photoshop')
+@section('title', 'Psd Pending')
 
 @section('distinct_head')
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
@@ -77,6 +77,7 @@
 			<form action="" method="POST">
 			<input type="hidden" value="{{$item->entity_id}}" name="product_id"/>
 			<input type="hidden" value="{{$item->attribute_set_id}}" name="category_id"/>
+			<input type="hidden" value="{{$item->id}}" name="photoshopid"/>
 				@csrf
 				<select name="status" class="form-control" style="height:20px;width:150px;float: left;">
 					<option value="2">Pending</option>

@@ -393,5 +393,8 @@ class ProductHelper {
 		DB::setTablePrefix('dml_');
 		return $extraPrice;
 	}
+
+
+	
 }
 ?>
