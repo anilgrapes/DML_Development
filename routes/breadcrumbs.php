@@ -583,3 +583,27 @@ Breadcrumbs::for ('psd.rework', function ($trail) {
 	$trail->parent('dashboard');
 	$trail->push('PSD Pending', route('psd.rework'));
 });
+Breadcrumbs::for ('editing.pending', function ($trail) {
+	$trail->parent('dashboard');
+	$trail->push('Editing Pending', route('editing.pending'));
+});
+Breadcrumbs::for ('editing.done', function ($trail) {
+	$trail->parent('dashboard');
+	$trail->push('Editing done', route('editing.done'));
+});
+Breadcrumbs::for ('editing.rework', function ($trail) {
+	$trail->parent('dashboard');
+	$trail->push('Editing Rework', route('editing.rework'));
+});
+Breadcrumbs::for ('jpeg.pending', function ($trail) {
+	$trail->parent('dashboard');
+	$trail->push('JPEG Pending', route('jpeg.pending'));
+});
+Breadcrumbs::for ('jpeg.done', function ($trail) {
+	$trail->parent('dashboard');
+	$trail->push('JPEG done', route('jpeg.done'));
+});
+Breadcrumbs::for ('jpeg.rework', function ($trail) {
+	$trail->parent('dashboard');
+	$trail->push('JPEG Rework', route('jpeg.rework'));
+});

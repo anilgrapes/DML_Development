@@ -2,7 +2,7 @@
 @extends('layout.photo_navi')
 
 
-@section('title', 'Psd Pending')
+@section('title', 'Psd Rework')
 
 @section('distinct_head')
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
@@ -34,7 +34,8 @@
     </div>
   </div>
   	<div class="widget-list">
-      	<div class="row">
+		  <div class="
+		  ">
   			<div class="col-md-12 widget-holder content-area">
   				<div class="widget-bg">
   					<div class="widget-heading clearfix">

@@ -68,5 +68,19 @@ public static function get_psd_status_list($status)
     DB::setTablePrefix('dml_');
     return $psdstatus;
 }
+//Get Product Deatail from Catalog_product_flat_1 using enity_id
+public static function get_Product_detail($entity_id)
+{
+    DB::setTablePrefix('');
+    $product=DB::table('Catalog_product_flat_1 as e')
+                    ->join('category as c','e.attribute_set_id','=','c.entity_id')
+                   ->select('e.entity_id','e.sku','c.name','e.attribute_set_id')
+                    ->groupBy(['e.original_sku'])
+                    ->where('entity_id','=',$entity_id)
+                    ->get();
+
+      return $product;              
+}
+
 }
 ?>
