@@ -56,36 +56,51 @@
 							</thead>
 							<tbody>
 	  
-						  <tr>
-							  <td>x</td>
-							  <td>Zxz
-							  </td>
-						  <td>zx</td>
-						  <td>z</td>
-							  <td style="    float: right;">
-								  <form action="" method="POST">
-								   <input type="hidden" value="" name="id"/>
-								  <input type="hidden" value="" name="product_id"/>
-								  <input type="hidden" value="" name="category_id"/>
-									  @csrf
-									  <select name="status" class="form-control" style="height:20px;width:150px;float: left;">
-										  <option value="1">In Process</option>
-										  <option value="3">Done</option>
-									  </select>
-									  <input type="submit" style="height: 20px;
-									  float: left;
-									  margin-left: 6px;" class="btn btn-primary" value="Submit"/>
-							  
-								  </form>
-								  </td>
-						  
-						  
-						  </tr>
-					  
+					
+								@foreach ($done_jpg_list as $item)
+								<?php 
+							  $arr = explode(' ', $item->sku);
+							  $len=count($arr);
+								?>
+							
+							<tr>
+								<td><?php echo $arr[0];?></td>
+								<td><?php
+								if($len==5)
+								{
+									echo $arr[2]." ".$arr[3];
+								}else {
+									echo $arr[2];
+								}
+								
+								?>
+								</td>
+							<td>{{$item->name}}</td>
+							<td>{{$item->status_name}}</td>
+								<td style="    float: right;">
+									<form action="" method="POST">
+									 <input type="hidden" value="{{$item->id}}" name="id"/>
+									<input type="hidden" value="{{$item->entity_id}}" name="product_id"/>
+									<input type="hidden" value="{{$item->attribute_set_id}}" name="category_id"/>
+										@csrf
+										<select name="status" class="form-control" style="height:20px;width:150px;float: left;">
+											<option value="0">select status</option>
+											<option value="4">Rework</option>
+										</select>
+										<input type="submit" style="height: 20px;
+										float: left;
+										margin-left: 6px;" class="btn btn-primary" value="Submit"/>
+								
+									</form>
+									</td>
+							
+							
+							</tr>
+						
+															
+															@endforeach
+						
 														  
-													
-								  
-							  
 							</tbody>
 							<tfoot>
 							  <tr class="bg-primary">

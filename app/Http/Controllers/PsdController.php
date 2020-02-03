@@ -32,6 +32,7 @@ class PsdController extends Controller
     public function get_psd_done_list()
     {
         $status='3';
+       
         $psd_done_list=PhotoshopHelper::get_psd_status_list($status);
         return view('Photoshop/PSD/psd_done',compact('psd_done_list'));
     }

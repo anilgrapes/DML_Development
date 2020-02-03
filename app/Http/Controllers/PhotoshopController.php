@@ -30,9 +30,11 @@ class PhotoshopController extends Controller
     public function get_pending_list()
     {
        
-       $pendinglist=PhotoshopHelper::getAllProduct();
-       $totalproduct=$pendinglist->count();
-       return view('Photoshop/Photography/photography_pending',compact('pendinglist','totalproduct'));
+        $pending=PhotoshopHelper::getAllProduct();
+        $pendinglist=collect($pending);
+       // dd($pendinglist->pluck('sku','metal_quality_value'));
+        $totalproduct=$pending->count();
+      return view('Photoshop/Photography/photography_pending',compact('pendinglist','totalproduct'));
 
    
    
@@ -44,10 +46,9 @@ class PhotoshopController extends Controller
     */
     public function get_done_list()
     {
-
-        $status='3';
-      $donelist=PhotoshopHelper::getPhotography_status($status);
-      return view('Photoshop/Photography/photography_done',compact('donelist'));
+   $status='3';
+   $donelist=PhotoshopHelper::getPhotography_status($status);
+   return view('Photoshop/Photography/photography_done',compact('donelist'));
     }
      /*
     Photography Rework get data from this function

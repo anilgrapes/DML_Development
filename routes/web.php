@@ -745,11 +745,15 @@ Editing Department Routing
 Route::get('Photoshop/Editing/pending','EditingController@get_pending_list_editing')->name('editing.pending');
 Route::get('Photoshop/Editing/done','EditingController@get_done_list_editng')->name('editing.done');
 Route::get('Photoshop/Editing/rework','EditingController@get_rework_list_editing')->name('editing.rework');
-
-
+Route::post('Photoshop/Editing/pending','EditingController@get_pending_submit_editing')->name('editing.pending');
+Route::post('Photoshop/Editing/done','EditingController@submit_done_list_editng')->name('editing.done');
+Route::post('Photoshop/Editing/rework','EditingController@submit_done_list_editng')->name('editing.rework');
 /*
 JPEG Department Routing
 */
 Route::get('Photoshop/JPEG/pending','JpegController@get_pending_list_jpeg')->name('jpeg.pending');
+Route::post('Photoshop/JPEG/pending','JpegController@submit_pending_list_jpeg')->name('jpeg.pending');
 Route::get('Photoshop/JPEG/done','JpegController@get_done_list_jpeg')->name('jpeg.done');
+Route::post('Photoshop/JPEG/done','JpegController@submit_done_list_jpeg')->name('jpeg.done');
 Route::get('Photoshop/JPEG/rework','JpegController@get_rework_list_jpeg')->name('jpeg.rework');
+Route::post('Photoshop/JPEG/rework','JpegController@submit_done_list_jpeg')->name('jpeg.rework');

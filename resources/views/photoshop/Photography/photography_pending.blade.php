@@ -54,21 +54,36 @@
   								</tr>
   							</thead>
   							<tbody>
+							<?php 
+						
+						
+							?>
 		 @foreach ($pendinglist as $item)
-		<?php 
-      $arr = explode(' ', $item->sku);
-	  $len=count($arr);
+	<?php 
+
+	 $arr = explode(' ', $item->sku);
+	 $len=count($arr);
+	 $arr1 = explode(' ', $item->metal_quality_value);
+	  $len1=count($arr1);
+						
+
+	 if($len==5)
+		{ 
+			$color= $arr[2]." ".$arr[3];
+		}
+		else{
+			$color= $arr[2];
+            }
+			
+		$match2=$arr[0]."". $arr[2];
+		
+		
 		?>
 	
 	<tr>
-		<td><?php echo $arr[0];?></td>
+		<td><?php echo $item->original_sku;?></td>
 		<td><?php
-		if($len==5)
-		{
-			echo $arr[2]." ".$arr[3];
-		}else {
-			echo $arr[2];
-		}
+	echo $color
 		
 		?>
 		</td>
@@ -87,12 +102,10 @@
 		
 			</form>
 			</td>
-	
-	
-	</tr>
 
-									
-									@endforeach
+	</tr>
+	
+@endforeach
 							  </tbody>
 							  <tfoot>
 								<tr class="bg-primary">
