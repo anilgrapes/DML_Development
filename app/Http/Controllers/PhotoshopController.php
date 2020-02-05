@@ -7,8 +7,10 @@ use App\photography;
 use App\productListModel;
 use App\Helpers\PhotoshopHelper;
 use DB;
+use Auth;
 class PhotoshopController extends Controller
 {
+   
     public function index()
     {
 
@@ -70,19 +72,34 @@ class PhotoshopController extends Controller
 
     public function pending_list_submit(Request $request)
     {
-
+        $user=Auth::user();
+        
         $photoshop=new photography();
+     
+       
         if($request->input('status') !="1")
         {
+            
+
             $photoshop->product_id=$request->input('product_id');
             $photoshop->category_id=$request->input('category_id');
             $photoshop->status=$request->input('status');
             $photoshop->current_status='1';
             $photoshop->next_department_status='0';
-            $photoshop->save();
+           $photoshop->save();
+           //Cache table data Insert
+           $cache=array(
+            'product_id'=>$request->input('product_id'),
+            'url'=>$request->url(),
+            'status'=>$request->input('status')
+
+        );
+          PhotoshopHelper::store_cache_table_data($cache);
+           //End Cache table data Insert
         }
+      
         
-        return  redirect('Photoshop/Photography/pending')->with('message','Photoshop Status Change Successfull');
+     return  redirect('Photoshop/Photography/pending')->with('message','Photoshop Status Change Successfull');
     }
 /*
 done list submit for particular product change the photography status
@@ -90,12 +107,23 @@ done to rework
 */
     public function submit_done_list(Request $request)
     {
+        
+        $user=Auth::user();
         if($request->input('status') !='0')
         {
+            //cache table data insert 
+            $cache=array(
+                'product_id'=>$request->input('product_id'),
+                'url'=>$request->url(),
+                'status'=>$request->input('status')
+    
+            );
+            PhotoshopHelper::store_cache_table_data($cache);
+            //End of cache table data insert 
             $photoshop=photography::find($request->get('id'));
             $photoshop->status=$request->input('status');
-            $photoshop->save();
-            
+           $photoshop->save();
+        
             return redirect()->back()->with('success', 'Photography status Change Successfull');
         }
         else{
@@ -105,4 +133,6 @@ done to rework
         
         
     }
+
+  
 }

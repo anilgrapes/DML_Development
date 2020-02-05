@@ -17,7 +17,7 @@ DB::setTablePrefix('dml_');
                         <img src="<?=$user_avatar?>" class="media-object rounded-circle" />
                     </figure>
                     <div class="media-body hide-menu">
-                        <h4 class="media-heading mr-b-5 text-uppercase">cdcd</h4><span class="user-type fs-12">My Account <i class="fa fa-caret-down"></i></span>
+                        <h4 class="media-heading mr-b-5 text-uppercase">{{$user->name}}</h4><span class="user-type fs-12">My Account <i class="fa fa-caret-down"></i></span>
                     </div>
                 </a>
                 <div class="clearfix"></div>
