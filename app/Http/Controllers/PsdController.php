@@ -6,12 +6,24 @@ use Illuminate\Http\Request;
 use App\Helpers\PhotoshopHelper;
 use App\photography;
 use App\psd;
+use App\productListModel;
+use App\photography_product;
 use DB;
+use Auth;
 class PsdController extends Controller
 {
-    /*
-    Psd Dashboard 
-    */
+  
+ 
+  public $photography;
+  public $psd;
+  public $user;
+  public function __construct()
+  {
+      $this->photography=photography::getphotographyProduct();
+      $this->psd=psd::getPsdProduct();
+      $user=Auth::user();
+        
+  }
     public function index()
     {
         return view('Photoshop/PSD/index');
@@ -22,8 +34,9 @@ class PsdController extends Controller
     */
     public function get_psd_pending_list()
     {
-      $psdpending=PhotoshopHelper::get_psd_pending_list();
-        return view('Photoshop/PSD/psd_pending',compact('psdpending'));
+     
+       $psdpending=collect($this->photography)->where('status','=','3')->where('next_department_status','=','0');
+       return view('Photoshop/PSD/psd_pending',compact('psdpending'));
     }
     /*
     Get done List 
@@ -31,10 +44,8 @@ class PsdController extends Controller
     */
     public function get_psd_done_list()
     {
-        $status='3';
-       
-        $psd_done_list=PhotoshopHelper::get_psd_status_list($status);
-        return view('Photoshop/PSD/psd_done',compact('psd_done_list'));
+      $psd_done_list=collect($this->psd)->where('status','=','3');
+      return view('Photoshop/PSD/psd_done',compact('psd_done_list'));
     }
       /*
     Get rework List 
@@ -42,8 +53,7 @@ class PsdController extends Controller
     */
     public function get_psd_rework_list()
     {
-        $status='4';
-        $psd_rework=PhotoshopHelper::get_psd_status_list($status);
+       $psd_rework=collect($this->psd)->where('status','=','4');
         return view('Photoshop/PSD/psd_rework',compact('psd_rework'));
     }
     /* Get All Data from ppending From psd Department
@@ -52,40 +62,59 @@ class PsdController extends Controller
 
     public function get_data_from_psd_pending_list(Request $request)
     {
-        if($request->input('status') !='2')
-        {
-            $psd=new psd();
-            $psd->product_id=$request->input('product_id');
-            $psd->category_id=$request->input('category_id');
-            $psd->status=$request->input('status');
-            $psd->current_status='1';
-            $psd->next_department_status='0';
-            $psd->save();
-            $photoshopid=photography::find($request->input('photoshopid'));
-            $photoshopid->next_department_status='1';
-            $photoshopid->save();
-           return redirect()->back()->with('success', 'Psd status Change Successfull');
+      
+      $user=Auth::user();
+      $photoshop=new psd();
+      if($request->input('status') !="1")
+      {
+          
 
-        }
-        else{
-          return redirect()->back()->with('success', 'Psd status Change Successfull');
-        }
+          $photoshop->product_id=$request->input('product_id');
+
+          $photoshop->category_id=$request->input('category_id');
+          $photoshop->status=$request->input('status');
+          $photoshop->current_status='1';
+          $photoshop->next_department_status='0';
        
+         //Cache table data Insert
+         if($request->input('status')=='3')
+         {
+          $photoshop->save();
+          $cache=array(
+              'product_id'=>$request->input('product_id'),
+              'url'=>PhotoshopHelper::getDepartment($request->url()),
+              'status'=>$request->input('status'),
+              'action_by'=>$user->id
+  
+  
+          );
+           PhotoshopHelper::store_cache_table_data($cache);
+           photography::getUpdatestatusdone($request->input('product_id'));
+         }
+        
+      }
+        return redirect()->back()->with('success', 'Psd status Change Successfull');
+     
     }
 
     public function submit_done_list(Request $request)
     {
+      $user=Auth::user();
         $psd=psd::find($request->input('id'));
        if($request->input('status') !='0')
        {
-        $psd->status=$request->input('status');
-        $psd->save();
-        return redirect()->back()->with('success', 'Psd status Change Successfull');
-       }
-       else{
+        $cache=array(
+          'product_id'=>$request->input('product_id'),
+          'url'=>PhotoshopHelper::getDepartment($request->url()),
+          'status'=>$request->input('status'),
+          'action_by'=>$user->id
 
-        return redirect()->back()->with('success', 'Psd status Change Successfull');
+      );
+      PhotoshopHelper::store_cache_table_data($cache);
+      psd::update_psd_status($request->get('product_id'),$request->input('status'));
        }
+    
+       return redirect()->back()->with('success', 'Psd status Change Successfull');
     }
 
 }

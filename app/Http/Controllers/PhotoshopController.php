@@ -6,11 +6,19 @@ use Illuminate\Http\Request;
 use App\photography;
 use App\productListModel;
 use App\Helpers\PhotoshopHelper;
+use App\photography_product;
 use DB;
 use Auth;
 class PhotoshopController extends Controller
 {
-   
+    public $product;
+    public $photography;
+    public function __construct()
+    {
+        $this->product=photography_product::all();
+        $this->photography=photography::getphotographyProduct();
+       
+    }
     public function index()
     {
 
@@ -31,26 +39,26 @@ class PhotoshopController extends Controller
     */
     public function get_pending_list()
     {
-       
-        $pending=PhotoshopHelper::getAllProduct();
-        $pendinglist=collect($pending);
-       // dd($pendinglist->pluck('sku','metal_quality_value'));
-        $totalproduct=$pending->count();
-      return view('Photoshop/Photography/photography_pending',compact('pendinglist','totalproduct'));
-
-   
-   
-  
+       $pendinglist=array();
+     
+       // $pending=photography_product::all();
+        $pendinglist=collect($this->product)->where('status','=',0);
       
+      $totalproduct= count($pendinglist);  
+      
+   return view('Photoshop/Photography/photography_pending',compact('pendinglist','totalproduct'));
+ 
+  
     }
      /*
     Photography done get data from this function
     */
     public function get_done_list()
     {
-   $status='3';
-   $donelist=PhotoshopHelper::getPhotography_status($status);
-   return view('Photoshop/Photography/photography_done',compact('donelist'));
+     $donelist=collect($this->photography)->where('status','=',3);
+ 
+
+  return view('Photoshop/Photography/photography_done',compact('donelist'));
     }
      /*
     Photography Rework get data from this function
@@ -58,10 +66,9 @@ class PhotoshopController extends Controller
     public function get_rework_list()
     {
      
-        $status='4';
-        $reworklist=PhotoshopHelper::getPhotography_status($status);
-      
-        return view('Photoshop/Photography/photography_rework',compact('reworklist'));
+       
+         $reworklist=collect($this->photography)->where('status','=',4);
+      return view('Photoshop/Photography/photography_rework',compact('reworklist'));
     }
 
     /*
@@ -82,24 +89,33 @@ class PhotoshopController extends Controller
             
 
             $photoshop->product_id=$request->input('product_id');
+
             $photoshop->category_id=$request->input('category_id');
             $photoshop->status=$request->input('status');
             $photoshop->current_status='1';
             $photoshop->next_department_status='0';
-           $photoshop->save();
+         
            //Cache table data Insert
-           $cache=array(
-            'product_id'=>$request->input('product_id'),
-            'url'=>$request->url(),
-            'status'=>$request->input('status')
-
-        );
-          PhotoshopHelper::store_cache_table_data($cache);
-           //End Cache table data Insert
+           if($request->input('status')=='3')
+           {
+            $photoshop->save();
+            $cache=array(
+                'product_id'=>$request->input('product_id'),
+                'url'=>PhotoshopHelper::getDepartment($request->url()),
+                'status'=>$request->input('status'),
+                'action_by'=>$user->id
+    
+    
+            );
+             PhotoshopHelper::store_cache_table_data($cache);
+          
+             photography_product::getUpdatestatusdone($request->input('product_id'));
+           }
+          
         }
       
         
-     return  redirect('Photoshop/Photography/pending')->with('message','Photoshop Status Change Successfull');
+ return  redirect('Photoshop/Photography/pending')->with('message','Photoshop Status Change Successfull');
     }
 /*
 done list submit for particular product change the photography status
@@ -114,16 +130,13 @@ done to rework
             //cache table data insert 
             $cache=array(
                 'product_id'=>$request->input('product_id'),
-                'url'=>$request->url(),
-                'status'=>$request->input('status')
+                'url'=>PhotoshopHelper::getDepartment($request->url()),
+                'status'=>$request->input('status'),
+                'action_by'=>$user->id
     
             );
             PhotoshopHelper::store_cache_table_data($cache);
-            //End of cache table data insert 
-            $photoshop=photography::find($request->get('id'));
-            $photoshop->status=$request->input('status');
-           $photoshop->save();
-        
+            photography::update_photography_status($request->get('product_id'),$request->input('status'));
             return redirect()->back()->with('success', 'Photography status Change Successfull');
         }
         else{

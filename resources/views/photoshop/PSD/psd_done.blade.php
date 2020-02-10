@@ -58,31 +58,25 @@
 		
 	
 								@foreach ($psd_done_list as $item)
-								<?php 
-							  $arr = explode(' ', $item->sku);
-							  $len=count($arr);
-								?>
 							
-							<tr>
-								<td><?php echo $arr[0];?></td>
-								<td><?php
-								if($len==5)
-								{
-									echo $arr[2]." ".$arr[3];
-								}else {
-									echo $arr[2];
-								}
-								
-								?>
-								</td>
-							<td>{{$item->name}}</td>
-							<td>{{$item->status_name}}</td>
-								<td style="    float: right;">
-									<form action="" method="POST">
-									 <input type="hidden" value="{{$item->id}}" name="id"/>
-									<input type="hidden" value="{{$item->entity_id}}" name="product_id"/>
-									<input type="hidden" value="{{$item->attribute_set_id}}" name="category_id"/>
-										@csrf
+		 <?php 
+		 $product=$item->getProduct;
+		 $category=$item->category;
+
+		 ?>
+
+<tr>
+<td><?php echo $product['sku'];?></td>
+<td><?php echo $product['color'];?>
+</td>
+<td>{{$category->name}}</td>
+<td>Pending</td>
+<td style="    float: right;">
+<form action="" method="POST">
+@csrf
+<input type="hidden" value="{{$item->product_id}}" name="product_id"/>
+<input type="hidden" value="{{$item->category_id}}" name="category_id"/>
+
 										<select name="status" class="form-control" style="height:20px;width:150px;float: left;">
 											<option value="0">select status</option>
 											<option value="4">Rework</option>

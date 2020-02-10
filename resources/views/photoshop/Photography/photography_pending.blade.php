@@ -54,44 +54,22 @@
   								</tr>
   							</thead>
   							<tbody>
-							<?php 
+							
 						
 						
-							?>
-		 @foreach ($pendinglist as $item)
-	<?php 
-
-	 $arr = explode(' ', $item->sku);
-	 $len=count($arr);
-	 $arr1 = explode(' ', $item->metal_quality_value);
-	  $len1=count($arr1);
-						
-
-	 if($len==5)
-		{ 
-			$color= $arr[2]." ".$arr[3];
-		}
-		else{
-			$color= $arr[2];
-            }
-			
-		$match2=$arr[0]."". $arr[2];
-		
-		
-		?>
+ @foreach ($pendinglist as $item)
+<tr>
+		<td>{{$item->sku}}</td>
 	
-	<tr>
-		<td><?php echo $item->original_sku;?></td>
-		<td><?php
-	echo $color
-		
-		?>
-		</td>
-	<td>{{$item->name}}</td>
+	<td>{{$item->color}} Gold</td>
+	<td>
+		{{$item->category->name}}
+			
+	</td>
 		<td>
 			<form action="" method="POST">
-			<input type="hidden" value="{{$item->entity_id}}" name="product_id"/>
-			<input type="hidden" value="{{$item->attribute_set_id}}" name="category_id"/>
+			<input type="hidden" value="{{$item->id}}" name="product_id"/>
+			<input type="hidden" value="{{$item->categoryid}}" name="category_id"/>
 				@csrf
 				<select name="status" class="form-control" style="height:20px;width:150px;float: left;">
 					<option value="2">Pending</option>

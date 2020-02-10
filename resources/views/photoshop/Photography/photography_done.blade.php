@@ -59,31 +59,24 @@
   							</thead>
   							<tbody>
 		 @foreach ($donelist as $item)
-		<?php 
-      $arr = explode(' ', $item->sku);
-	  $len=count($arr);
-		?>
+		 <?php 
+									$product=$item->getProduct;
+									$category=$item->category;
+
+									?>
 	
 	<tr>
-		<td><?php echo $arr[0];?></td>
-		<td><?php
-		if($len==5)
-		{
-			echo $arr[2]." ".$arr[3];
-		}else {
-			echo $arr[2];
-		}
-		
-		?>
+		<td><?php echo $product['sku'];?></td>
+		<td><?php echo $product['color'];?>
 		</td>
-    <td>{{$item->name}}</td>
-    <td>{{$item->status_name}}</td>
+    <td>{{$category->name}}</td>
+    <td>Done</td>
 		<td style="    float: right;">
 			<form action="" method="POST">
-             <input type="hidden" value="{{$item->id}}" name="id"/>
-		    <input type="hidden" value="{{$item->entity_id}}" name="product_id"/>
-			<input type="hidden" value="{{$item->attribute_set_id}}" name="category_id"/>
-				@csrf
+				<input type="hidden" value="{{$item->product_id}}" name="product_id"/>
+				<input type="hidden" value="{{$item->category_id}}" name="category_id"/>
+			
+           		@csrf
 				<select name="status" class="form-control" style="height:20px;width:150px;float: left;">
 					<option value="0">select status</option>
 					<option value="4">Rework</option>

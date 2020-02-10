@@ -10,6 +10,9 @@ class category extends Model
     
     protected $table = 'categories';
     
-
+    public function product()
+    {
+        return $this->belongsTo('App\photography_product');
+    }
 
 }
