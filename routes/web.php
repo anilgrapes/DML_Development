@@ -737,8 +737,14 @@ Route::post('Photoshop/psd/done','PsdController@submit_done_list')->name('psd.do
 Route::get('Photoshop/psd/rework','PsdController@get_psd_rework_list')->name('psd.rework');
 Route::post('Photoshop/psd/rework','PsdController@submit_done_list')->name('psd.rework');
 
+//Placement Routing
 
-
+Route::get('Photoshop/Placement/pending','PlacementController@get_placement_pending_list')->name('placement_pending');
+Route::get('Photoshop/Placement/done','PlacementController@get_placement_done_list')->name('placement_done');
+Route::get('Photoshop/Placement/rework','PlacementController@get_placement_rework_list')->name('placement_rework');
+Route::post('Photoshop/Placement/pending','PlacementController@get_pending_list_data_submit')->name('placement_pending_submit');
+Route::post('Photoshop/Placement/done','PlacementController@submit_done_list')->name('placement_done');
+Route::post('Photoshop/Placement/rework','PlacementController@submit_done_list')->name('placement_done');
 /*
 Editing Department Routing
 */
@@ -757,3 +763,5 @@ Route::get('Photoshop/JPEG/done','JpegController@get_done_list_jpeg')->name('jpe
 Route::post('Photoshop/JPEG/done','JpegController@submit_done_list_jpeg')->name('jpeg.done');
 Route::get('Photoshop/JPEG/rework','JpegController@get_rework_list_jpeg')->name('jpeg.rework');
 Route::post('Photoshop/JPEG/rework','JpegController@submit_done_list_jpeg')->name('jpeg.rework');
+
+

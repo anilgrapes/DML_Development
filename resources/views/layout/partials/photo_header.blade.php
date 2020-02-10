@@ -64,7 +64,16 @@ DB::setTablePrefix('dml_');
                     </li>
                 </ul>
             </li>
-
+            <li class="@if (\Request::is('users*') || \Request::is('roles*') || \Request::is('permissions*')) current-page @endif menu-item-has-children "><a href="javascript:void(0);" class="ripple"><span class="@if (\Request::is('users*') || \Request::is('roles*') || \Request::is('permissions*')) color-color-scheme @endif"><i class="list-icon material-icons">monochrome_photos</i> <span class="hide-menu">Placement</span></span></a>
+                <ul class="list-unstyled sub-menu @if ( \Request::is('users*') || \Request::is('roles*') || \Request::is('permissions*') ) in @endif">
+                    <li class="@if(\Request::is('users*')) active @endif"><a href="<?=URL::to('/Photoshop/Placement/pending');?>">Pending &nbsp;<span class="badge badge-border badge-border-inverted bg-primary">0</span></a>
+                    </li>
+                    <li class="@if(\Request::is('roles*')) active @endif"><a href="<?=URL::to('/Photoshop/Placement/done');?>">Done &nbsp;<span class="badge badge-border badge-border-inverted bg-primary">0</span></a>
+                    </li>
+                    <li class="@if(\Request::is('permissions*')) active @endif"><a href="<?=URL::to('/Photoshop/Placement/rework');?>">Rework &nbsp;<span class="badge badge-border badge-border-inverted bg-primary">0</span></a>
+                    </li>
+                </ul>
+            </li>
             <li class="@if (\Request::is('users*') || \Request::is('roles*') || \Request::is('permissions*')) current-page @endif menu-item-has-children "><a href="javascript:void(0);" class="ripple"><span class="@if (\Request::is('users*') || \Request::is('roles*') || \Request::is('permissions*')) color-color-scheme @endif"><i class="list-icon material-icons">broken_image</i> <span class="hide-menu">Editing</span></span></a>
                 <ul class="list-unstyled sub-menu @if ( \Request::is('users*') || \Request::is('roles*') || \Request::is('permissions*') ) in @endif">
                     <li class="@if(\Request::is('users*')) active @endif"><a href="<?=URL::to('/Photoshop/Editing/pending');?>">Pending &nbsp;<span class="badge badge-border badge-border-inverted bg-primary">0</span></a>

@@ -607,3 +607,16 @@ Breadcrumbs::for ('jpeg.rework', function ($trail) {
 	$trail->parent('dashboard');
 	$trail->push('JPEG Rework', route('jpeg.rework'));
 });
+
+Breadcrumbs::for ('placement_pending', function ($trail) {
+	$trail->parent('dashboard');
+	$trail->push('Placement Pending', route('placement_pending'));
+});
+Breadcrumbs::for ('placement_done', function ($trail) {
+	$trail->parent('dashboard');
+	$trail->push('Placement done', route('placement_done'));
+});
+Breadcrumbs::for ('placement_rework', function ($trail) {
+	$trail->parent('dashboard');
+	$trail->push('Placement Rework', route('placement_rework'));
+});

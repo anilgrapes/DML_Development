@@ -109,7 +109,7 @@ class PhotoshopController extends Controller
             );
              PhotoshopHelper::store_cache_table_data($cache);
           
-             photography_product::getUpdatestatusdone($request->input('product_id'));
+             photography::getUpdatestatusdone($request->input('product_id'));
            }
           
         }

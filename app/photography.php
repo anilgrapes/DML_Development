@@ -28,6 +28,11 @@ class photography extends Model
  }
   public static function getUpdatestatusdone($productid)
   {
+      $data=array('next_department_status'=>'0');
+      return photography::where('product_id','=',$productid)->update($data);
+  }
+  public static function getUpdatenextdepartmentdone($productid)
+  {
       $data=array('next_department_status'=>'1');
       return photography::where('product_id','=',$productid)->update($data);
   }

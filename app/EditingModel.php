@@ -3,6 +3,7 @@
 namespace App;
 use App\psd;
 use App\productListModel;
+use App\placement;
 use DB;
 
 use Illuminate\Database\Eloquent\Model;
@@ -12,7 +13,7 @@ class EditingModel extends Model
 
  public static function getEditingProduct()
     {
-        return psd::all();
+        return placement::all();
      }
     public function category()
     {
@@ -27,7 +28,7 @@ class EditingModel extends Model
  public static function getUpdatestatusdone($productid)
  {
      $data=array('next_department_status'=>'1');
-     return psd::where('product_id','=',$productid)->update($data);
+     return placement::where('product_id','=',$productid)->update($data);
  }
 public static function update_editing_status($productid,$status)
 {

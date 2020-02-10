@@ -35,7 +35,7 @@ class PsdController extends Controller
     public function get_psd_pending_list()
     {
      
-       $psdpending=collect($this->photography)->where('status','=','3')->where('next_department_status','=','0');
+      $psdpending=collect($this->photography)->where('status','=','3')->where('next_department_status','=','0');
        return view('Photoshop/PSD/psd_pending',compact('psdpending'));
     }
     /*
@@ -89,7 +89,7 @@ class PsdController extends Controller
   
           );
            PhotoshopHelper::store_cache_table_data($cache);
-           photography::getUpdatestatusdone($request->input('product_id'));
+           photography::getUpdatenextdepartmentdone($request->input('product_id'));
          }
         
       }
