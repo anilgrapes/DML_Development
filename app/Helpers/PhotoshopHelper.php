@@ -11,13 +11,7 @@ use Illuminate\Support\Carbon;
 use App\photography_product;
 class PhotoshopHelper
 {
-//get All Pending product having not image is done
-public static function  getAllProduct()
-{
-    $product=photography_product::all();
-    $collection=collect($product)->where('status',0);
-    return $collection->all();
-}
+
 
 //Get the Status From SELECT * from photosraphy_status
 public static function getStatus($id)

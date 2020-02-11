@@ -30,6 +30,11 @@ class EditingModel extends Model
      $data=array('next_department_status'=>'1');
      return placement::where('product_id','=',$productid)->update($data);
  }
+ public static function getUpdatestatusrework($productid)
+ {
+     $data=array('next_department_status'=>'0');
+     return EditingModel::where('product_id','=',$productid)->update($data);
+ }
 public static function update_editing_status($productid,$status)
 {
     $data=array('status'=>$status);

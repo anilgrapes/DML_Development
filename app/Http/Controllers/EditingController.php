@@ -105,6 +105,7 @@ class EditingController extends Controller
         PhotoshopHelper::store_cache_table_data($cache);
         EditingModel::update_editing_status($request->get('product_id'),$request->input('status'));
       
+       
         $message=array(
             'success'=>'Editing Rework Successfull',
             'class'=>'alert alert-success'
