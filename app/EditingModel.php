@@ -4,6 +4,7 @@ namespace App;
 use App\psd;
 use App\productListModel;
 use App\placement;
+use App\jpegModel;
 use DB;
 
 use Illuminate\Database\Eloquent\Model;
@@ -39,5 +40,11 @@ public static function update_editing_status($productid,$status)
 {
     $data=array('status'=>$status);
     return EditingModel::where('product_id','=',$productid)->update($data);
+}
+public static function delete_from_jpeg_List($productid)
+{
+
+    return jpegModel::where('product_id','=',$productid)->delete();
+  
 }
 }

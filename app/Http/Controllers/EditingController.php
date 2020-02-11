@@ -95,6 +95,8 @@ class EditingController extends Controller
         
      }
      else{
+
+
         $cache=array(
             'product_id'=>$request->input('product_id'),
             'url'=>PhotoshopHelper::getDepartment($request->url()),
@@ -102,17 +104,22 @@ class EditingController extends Controller
             'action_by'=>$user->id
   
         );
-        PhotoshopHelper::store_cache_table_data($cache);
-        EditingModel::update_editing_status($request->get('product_id'),$request->input('status'));
+       PhotoshopHelper::store_cache_table_data($cache);
+      EditingModel::update_editing_status($request->get('product_id'),$request->input('status'));
+     
       
        
         $message=array(
             'success'=>'Editing Rework Successfull',
             'class'=>'alert alert-success'
         );
-       
+       if($request->input('status')=='4')
+       {
+        EditingModel::getUpdatestatusrework($request->input('product_id'));
+        EditingModel::delete_from_jpeg_List($request->input('product_id'));
+       }
      }
-
-  return redirect()->back()->with($message);   
+    return redirect()->back()->with($message);   
     }
+    
 }
