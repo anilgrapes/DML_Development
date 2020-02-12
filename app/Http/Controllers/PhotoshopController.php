@@ -137,6 +137,13 @@ done to rework
             );
             PhotoshopHelper::store_cache_table_data($cache);
             photography::update_photography_status($request->get('product_id'),$request->input('status'));
+         if($request->input('status')=='4')
+         {
+             photography::delete_from_below_department($request->input('product_id'));
+             photography::getUpdatestatusdone($request->input('product_id'));
+             
+         }
+         
             return redirect()->back()->with('success', 'Photography status Change Successfull');
         }
         else{

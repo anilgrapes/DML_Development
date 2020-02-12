@@ -93,8 +93,18 @@ class PlacementController extends Controller
            
            PhotoshopHelper::store_cache_table_data($cache);
          placement::update_placement_status($request->input('product_id'),$request->input('status'));
+    if($request->input('status')=='4')
+    {
+         placement::delete_from_editing($request->input('product_id'));
+   
+         placement::delete_from_jpeg($request->input('product_id'));
+          placement::getUpdatestatus_JPEG($request->input('product_id'));
+    
+      
     }
-  return redirect()->back()->with('success', 'Psd status Change Successfull');
+    
+        }
+return redirect()->back()->with('success', 'Psd status Change Successfull');
     
 }
 }

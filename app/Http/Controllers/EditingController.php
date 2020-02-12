@@ -105,7 +105,7 @@ class EditingController extends Controller
   
         );
        PhotoshopHelper::store_cache_table_data($cache);
-      EditingModel::update_editing_status($request->get('product_id'),$request->input('status'));
+       EditingModel::update_editing_status($request->get('product_id'),$request->input('status'));
      
       
        
@@ -118,8 +118,10 @@ class EditingController extends Controller
         EditingModel::getUpdatestatusrework($request->input('product_id'));
         EditingModel::delete_from_jpeg_List($request->input('product_id'));
        }
+       
+      
      }
     return redirect()->back()->with($message);   
     }
-    
+
 }
