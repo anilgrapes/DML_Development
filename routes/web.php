@@ -713,6 +713,13 @@ Route::post('account/payments#future_due', ['as' => 'accountpayment.future_due',
 });
 
 /*
+
+Photoshop Product COntroller 
+*/
+Route::get('Photoshop/Product/list','PhotoshopProductController@list_of_product')->name('product_list');
+Route::get('Photoshop/Product/add','PhotoshopProductController@add_of_product')->name('product_add');
+Route::post('Photoshop/Product/list','PhotoshopProductController@list_of_product_filter')->name('product_list');
+/*
 Photoshop department
 */
 Route::get('Photoshop/Photography','PhotoshopController@index')->name('photography.index');

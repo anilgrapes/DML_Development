@@ -620,3 +620,11 @@ Breadcrumbs::for ('placement_rework', function ($trail) {
 	$trail->parent('dashboard');
 	$trail->push('Placement Rework', route('placement_rework'));
 });
+Breadcrumbs::for('product_list',function($trail){
+	$trail->parent('dashboard');
+	$trail->push('Product List', route('product_list'));
+});
+Breadcrumbs::for('product_add',function($trail){
+	$trail->parent('dashboard');
+	$trail->push('Product Add', route('product_add'));
+});

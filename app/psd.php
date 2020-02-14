@@ -35,7 +35,7 @@ public function getProduct()
       
    
   
-  //  return placement::where('product_id','=',$product_id)->delete();
+  
   }
   public static function getUpdatestatus_psd($productid)
   {

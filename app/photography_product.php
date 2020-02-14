@@ -6,7 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class photography_product extends Model
 {
-    
+    public static function get_product_list()
+    {
+        return photography_product::all();
+    }
    public function category()
    {
        return $this->hasOne('App\category','entity_id','categoryid');
